@@ -1,6 +1,6 @@
-# Turborepo Docker starter
+# Flexpa work sample from Turborepo Docker starter
 
-This is an official Docker starter Turborepo.
+https://www.flexpa.com/docs/about/work-sample
 
 ## What's inside?
 
@@ -8,27 +8,30 @@ This turborepo uses [Yarn](https://classic.yarnpkg.com/lang/en/) as a package ma
 
 ### Apps and Packages
 
-- `web`: a [Next.js](https://nextjs.org/) app
-- `api`: an [Express](https://expressjs.com/) server
-- `ui`: ui: a React component library
-- `eslint-config-custom`: `eslint` configurations for client side applications (includes `eslint-config-next` and `eslint-config-prettier`)
-- `eslint-config-custom-server`: `eslint` configurations for server side applications (includes `eslint-config-next` and `eslint-config-prettier`)
-- `scripts`: Jest configurations
-- `logger`: Isomorphic logger (a small wrapper around console.log)
-- `tsconfig`: tsconfig.json;s used throughout the monorepo
+- `apps/web`: a [Next.js](https://nextjs.org/) app;
+  To work with the Flexpa API you will need a `.env.local` file with the
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+  ```
+  NEXT_PUBLIC_FLEXPA_PUBLISHABLE_KEY=
+  ```
 
-## Using this example
+  variable set.
 
-Run the following command:
+- `apps/api`: an [Express](https://expressjs.com/) server;
+  To work with the Flexpa API you will need a `.env` file with the:
 
-```sh
-npx degit vercel/turbo/examples/with-docker with-docker
-cd with-docker
-yarn install
-git init . && git add . && git commit -m "Init"
-```
+  ```
+  FLEXPA_SECRET_KEY=
+  ```
+
+  variable set.
+
+- `packages/ui`: ui: a React component library
+- `packages/eslint-config-custom`: `eslint` configurations for client side applications (includes `eslint-config-next` and `eslint-config-prettier`)
+- `packages/eslint-config-custom-server`: `eslint` configurations for server side applications (includes `eslint-config-next` and `eslint-config-prettier`)
+- `packages/jest-presets`: Jest configurations
+- `packages/logger`: Isomorphic logger (a small wrapper around console.log)
+- `packages/tsconfig`: tsconfig.json files used throughout the monorepo
 
 ### Docker
 
@@ -54,14 +57,6 @@ To shutdown all running containers:
 # Stop all running containers
 docker kill $(docker ps -q) && docker rm $(docker ps -a -q)
 ```
-
-### Remote Caching
-
-This example includes optional remote caching. In the Dockerfiles of the apps, uncomment the build arguments for `TURBO_TEAM` and `TURBO_TOKEN`. Then, pass these build arguments to your Docker build.
-
-You can test this behavior using a command like:
-
-`docker build -f apps/web/Dockerfile . --build-arg TURBO_TEAM=“your-team-name” --build-arg TURBO_TOKEN=“your-token“ --no-cache`
 
 ### Utilities
 
