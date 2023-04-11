@@ -10,4 +10,7 @@ module.exports = {
       presets: [require.resolve("next/babel")],
     },
   },
+  globals: {
+    FlexpaLink: "readonly",
+  },
 };

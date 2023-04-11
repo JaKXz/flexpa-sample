@@ -3,6 +3,8 @@ import cors from "cors";
 import express from "express";
 import morgan from "morgan";
 
+import flexpa from "./flexpa";
+
 export const createServer = () => {
   const app = express();
   app
@@ -11,6 +13,7 @@ export const createServer = () => {
     .use(urlencoded({ extended: true }))
     .use(json())
     .use(cors())
+    .use("/flexpa", flexpa(app))
     .get("/message/:name", (req, res) => {
       return res.json({ message: `hello ${req.params.name}` });
     })

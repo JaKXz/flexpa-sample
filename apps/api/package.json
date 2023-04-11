@@ -5,9 +5,9 @@
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "dev": "nodemon --exec \"node -r esbuild-register ./src/index.ts\" -e .ts",
+    "dev": "nodemon --exec \"npm run start\" -e .ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\"",
-    "start": "node -r esbuild-register ./src/index.ts",
+    "start": "node -r dotenv/config -r esbuild-register ./src/index.ts",
     "test": "jest --detectOpenHandles"
   },
   "jest": {
@@ -16,6 +16,7 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "logger": "*",
     "morgan": "^1.10.0"
