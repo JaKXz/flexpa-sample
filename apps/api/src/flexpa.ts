@@ -1,4 +1,5 @@
 import express, { type Application } from "express";
+import fetch from "node-fetch";
 
 export default function flexpa(app: Application) {
   const router = express.Router();
@@ -24,7 +25,10 @@ export default function flexpa(app: Application) {
       }),
     });
 
-    const { access_token, expires_in } = await request.json();
+    const { access_token, expires_in } = (await request.json()) as {
+      access_token: string;
+      expires_in: string;
+    };
 
     app.set("accessToken", access_token);
     app.set("expiresIn", Date.now() + Number(expires_in) * 1000);
