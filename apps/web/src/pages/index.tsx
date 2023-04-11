@@ -6,24 +6,34 @@ const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
 export default function Web() {
   const [data, setData] = useState<any>(null);
-  const [publicToken, setPublicToken] = useState("");
+  const [publicToken, setPublicToken] = useState(
+    localStorage.getItem("publicToken")
+  );
 
   useEffect(() => {
-    const req = fetch(`${API_HOST}/flexpa/ExplanationOfBenefit`, {
+    if (!publicToken) return;
+
+    const abortController = new AbortController();
+
+    const _req = fetch(`${API_HOST}/flexpa/ExplanationOfBenefit`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ token: localStorage.getItem("publicToken") }),
+      signal: abortController.signal,
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log("yayy");
         setData(res);
       })
       .catch((err) => {
         console.error(err);
       });
+
+    return () => {
+      abortController.abort();
+    };
   }, [publicToken]);
   return (
     <>

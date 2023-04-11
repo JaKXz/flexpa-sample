@@ -13,8 +13,6 @@ export default function flexpa(app: Application) {
       return next();
     }
 
-    console.log(req.body, process.env.FLEXPA_SECRET_KEY);
-
     const request = await fetch("https://api.flexpa.com/link/exchange", {
       method: "POST",
       headers: {
