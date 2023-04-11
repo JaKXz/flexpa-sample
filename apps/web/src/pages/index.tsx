@@ -2,13 +2,14 @@ import Script from "next/script";
 import { useEffect, useState } from "react";
 import { Button } from "ui";
 
+import { useLocalStorage } from "../hooks/use-local-storage";
+
 const API_HOST = process.env.NEXT_PUBLIC_API_HOST || "http://localhost:3001";
 
 export default function Web() {
   const [data, setData] = useState<any>(null);
-  const [publicToken, setPublicToken] = useState(
-    localStorage.getItem("publicToken")
-  );
+
+  const [publicToken, setPublicToken] = useLocalStorage("publicToken", "");
 
   useEffect(() => {
     if (!publicToken) return;
@@ -20,7 +21,7 @@ export default function Web() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ token: localStorage.getItem("publicToken") }),
+      body: JSON.stringify({ publicToken }),
       signal: abortController.signal,
     })
       .then((res) => res.json())
@@ -44,10 +45,7 @@ export default function Web() {
             publishableKey:
               process.env.NEXT_PUBLIC_FLEXPA_PUBLISHABLE_KEY || "",
             onSuccess: (publicToken: string) => {
-              // Send `publicToken` to your backend to exchange it for a patient `access_token`
-              // https://www.flexpa.com/docs/sdk/login#exchange
               console.log("publicToken: ", publicToken);
-              localStorage.setItem("publicToken", publicToken);
               setPublicToken(publicToken);
             },
           });

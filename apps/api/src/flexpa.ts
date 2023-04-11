@@ -19,7 +19,7 @@ export default function flexpa(app: Application) {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        public_token: req.body.token,
+        public_token: req.body.publicToken,
         secret_key: process.env.FLEXPA_SECRET_KEY,
       }),
     });
