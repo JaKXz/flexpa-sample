@@ -5,10 +5,8 @@ export default function flexpa(app: Application) {
   const router = express.Router();
 
   router.use("*", async (req, res, next) => {
-    const accessToken = app.get("accessToken");
-    const expiresIn = app.get("expiresIn");
-
-    console.log("accessToken stored?", accessToken);
+    const accessToken = app.get(`accessToken-${req.body.publicToken}`);
+    const expiresIn = app.get(`expiresIn-${req.body.publicToken}`);
 
     if (expiresIn && accessToken && expiresIn > Date.now()) {
       return next();
@@ -30,16 +28,17 @@ export default function flexpa(app: Application) {
       expires_in: string;
     };
 
-    app.set("accessToken", access_token);
-    app.set("expiresIn", Date.now() + Number(expires_in) * 1000);
-
-    console.log("accessToken exchanged!", access_token);
+    app.set(`accessToken-${req.body.publicToken}`, access_token);
+    app.set(
+      `expiresIn-${req.body.publicToken}`,
+      Date.now() + Number(expires_in) * 1000
+    );
 
     next();
   });
 
   router.post("/:endpoint", async (req, res) => {
-    const accessToken = app.get("accessToken");
+    const accessToken = app.get(`accessToken-${req.body.publicToken}`);
 
     const url = `https://api.flexpa.com/fhir/${req.params.endpoint}?patient=$PATIENT_ID`;
 
